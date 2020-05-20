@@ -1,4 +1,6 @@
 import sys
+from PyQt5 import QtGui
+import urllib.request
 
 from Connection import SetUpSpotipy
 import ClientInfo
@@ -13,6 +15,9 @@ class Game:
         # Get the API client in which a user does not connect to spotify.
         self.spotipyAPI = self.spotipyObj.get_spotify_api_client()
 
+        # The null image returned when nothing has been found
+        self.null_image_url = "https://blog.passmefast.co.uk/images/l-plate-300x300.png"
+
     def get_popularity_artist(self, artist_name):
         """
         Given the name of the artist it returns the popularity index of the artist.
@@ -20,10 +25,31 @@ class Game:
         :return: The popularity (0-100) of the artist.
         """
         results = self.spotipyAPI.search(q='artist:' + artist_name, type='artist')['artists']['items']
+
         if len(results) == 0:
             return None
         else:
             return results[0]['popularity']
+
+    def get_artist_image(self, artist_name):
+        """
+        Returns an image of the artist specified. If no artist is found then a blank image is displayed.
+        :param artist_name: The name of the artist in which we are retrieving an image from.
+        :return: The image of the artist.
+        """
+        results = self.spotipyAPI.search(q='artist:' + artist_name, type='artist')['artists']['items']
+
+        if len(results) == 0:
+            image_data = urllib.request.urlopen(self.null_image_url).read()
+        else:
+            # Get the first result.
+            image_data = results[0]['images'][0]['url']
+            image_data = urllib.request.urlopen(image_data).read()
+
+        image = QtGui.QImage()
+        image.loadFromData(image_data)
+
+        return image
 
     def game_loop(self):
         """The main game loop."""

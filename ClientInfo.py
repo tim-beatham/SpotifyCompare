@@ -1,3 +1,3 @@
-SPOTIPY_CLIENT_ID = "xxxxxxxxxxxxxxxxx"
-SPOTIPY_CLIENT_SECRET = "xxxxxxxxxxxxxxxxxxxxx"
+SPOTIPY_CLIENT_ID = "b5ffd5dc00834b19b283d860b82677ae"
+SPOTIPY_CLIENT_SECRET = "12abf39c33ed4b56aac5c85822ece192"
 SPOTIPY_REDIRECT_URL = "https://localhost:8888/callback/"
